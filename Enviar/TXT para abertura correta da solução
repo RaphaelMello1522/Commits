@@ -1,0 +1,4 @@
+Na solução asp.net web, será necessário abrir o package manager console do visual studio (CTRL+ALT+T), e dar o seguinte comando, add-migration Nome da migration, e em seguida update-database.
+Os chamados de api para acesso de informações referentes ao banco de dados estão com autorização, no caso será necessário efetivar o registro e login na aplicação, ou aparecera uma msg de erro na aplicação.
+As check-box estão sem vinculo ao banco, devido alguns problemas técnicos.
+O restante da aplicação está OK.
