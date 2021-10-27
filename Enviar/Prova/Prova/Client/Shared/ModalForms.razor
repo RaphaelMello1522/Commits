@@ -1,0 +1,49 @@
+﻿
+@if (DisplayForm)
+{
+
+    <div class="modal-backdrop show"></div>
+
+    <div class="modal fade show" id="ModalForms" tabindex="-1" role="form" aria-labelledby="Forms"
+         aria-hidden="true" style="display: block;">
+
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">@Titulo</h5>
+                    <button @onclick="@onCancel" type="button" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <h3 align="center">@Subtitulo</h3>
+                </div>
+
+                <div class="modal-footer">
+                    <button onclick="@onCancel" type="button" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool DisplayForm = false;
+    [Parameter] public string Titulo { get; set; }
+    [Parameter] public string Subtitulo { get; set; }
+    [Parameter] public RenderFragment BodyContent { get; set; }
+    [Parameter] public EventCallback onCancel { get; set; }
+
+    public void Show()
+    {
+        DisplayForm = true;
+    }
+
+    public void Hide()
+    {
+        DisplayForm = false;
+    }
+}

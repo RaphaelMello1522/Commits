@@ -1,0 +1,6 @@
+﻿<StaticWebAssets Version="1.0">
+  <ContentRoot BasePath="/" Path="C:\Users\rapha\source\repos\Prova\Prova\Client\bin\Debug\net5.0\wwwroot\" />
+  <ContentRoot BasePath="/" Path="C:\Users\rapha\source\repos\Prova\Prova\Client\obj\Debug\net5.0\scopedcss\bundle\" />
+  <ContentRoot BasePath="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication" Path="C:\Users\rapha\.nuget\packages\microsoft.aspnetcore.components.webassembly.authentication\5.0.10\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/Radzen.Blazor" Path="C:\Users\rapha\.nuget\packages\radzen.blazor\3.11.9\build\..\staticwebassets\" />
+</StaticWebAssets>

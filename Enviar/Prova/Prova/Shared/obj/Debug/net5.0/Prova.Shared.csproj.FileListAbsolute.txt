@@ -1,0 +1,12 @@
+C:\Users\rapha\source\repos\Prova\Prova\Shared\bin\Debug\net5.0\Prova.Shared.deps.json
+C:\Users\rapha\source\repos\Prova\Prova\Shared\bin\Debug\net5.0\Prova.Shared.dll
+C:\Users\rapha\source\repos\Prova\Prova\Shared\bin\Debug\net5.0\ref\Prova.Shared.dll
+C:\Users\rapha\source\repos\Prova\Prova\Shared\bin\Debug\net5.0\Prova.Shared.pdb
+C:\Users\rapha\source\repos\Prova\Prova\Shared\obj\Debug\net5.0\Prova.Shared.csproj.AssemblyReference.cache
+C:\Users\rapha\source\repos\Prova\Prova\Shared\obj\Debug\net5.0\Prova.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rapha\source\repos\Prova\Prova\Shared\obj\Debug\net5.0\Prova.Shared.AssemblyInfoInputs.cache
+C:\Users\rapha\source\repos\Prova\Prova\Shared\obj\Debug\net5.0\Prova.Shared.AssemblyInfo.cs
+C:\Users\rapha\source\repos\Prova\Prova\Shared\obj\Debug\net5.0\Prova.Shared.csproj.CoreCompileInputs.cache
+C:\Users\rapha\source\repos\Prova\Prova\Shared\obj\Debug\net5.0\Prova.Shared.dll
+C:\Users\rapha\source\repos\Prova\Prova\Shared\obj\Debug\net5.0\ref\Prova.Shared.dll
+C:\Users\rapha\source\repos\Prova\Prova\Shared\obj\Debug\net5.0\Prova.Shared.pdb

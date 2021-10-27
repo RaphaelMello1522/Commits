@@ -1,0 +1,228 @@
+﻿@page "/candidato/lista"
+@page "/candidato"
+@inject HttpClient http
+@inject IJSRuntime JSRuntime
+@attribute [Authorize]
+@using System.Text.Json
+@using Prova.Client.Pages.Modals.Modal_Error
+@using Prova.Client.Shared
+@using Prova.Client.Pages.Modals.ModalCad
+@using Prova.Client.Pages.Modals.ModalEdit
+
+<ModalCadCandidato candidato="candidato" vagas="vagas" tecnologias="tecnologias" Titulo="Cadastrar novo Candidato" @ref="RefModal" onCancel="onCancelCad" onConfirm="onConfirmCad">
+</ModalCadCandidato>
+
+<ModalEditCandidato candidato="candidatoEdit" vagas="vagas" tecnologias="tecnologias" Titulo="Editar dados do Candidato" @ref="RefModalEdit" onCancel="onCancelEdit" onConfirm="onConfirmEdit">
+</ModalEditCandidato>
+
+<ModalForms Titulo="@Titulo" Subtitulo="@SubTitulo" @ref="RefModals" onCancel="onCancel">
+</ModalForms>
+
+<h2 align="center">Lista de Candidatos</h2>
+
+<div>
+    @if (candidatos == null)
+    {
+        <text>Carregando...</text>
+    }
+    else if (candidatos.Count == 0)
+    {
+        <table id="candidato" class="display" style="width:100%">
+            <thead>
+                <tr align="center">
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Idade</th>
+                    <th>Email</th>
+                    <th>Contato</th>
+                    <th>Endereço</th>
+                    <th><button class="btn btn-primary" @onclick="@(() => CadNewCandidato())">Novo Candidato</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr align="center">
+                    <th align="center" colspan="14"><h3 align="center">Não há nenhum candidato cadastrado no sistema.</h3></th>
+                </tr>
+            </tbody>
+        </table>
+    }
+    else
+    {
+
+        <table id="candidato" class="display" style="width:100%">
+            <thead>
+                <tr align="center">
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Idade</th>
+                    <th>Email</th>
+                    <th>Contato</th>
+                    <th>Endereço</th>
+                    <th><button class="btn btn-primary" @onclick="@(() => CadNewCandidato())">Novo Candidato</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var candidato in candidatos)
+                {
+                    <tr align="center">
+                        <td>@candidato.nome</td>
+                        <td>@candidato.sobrenome</td>
+                        <td>@candidato.idade</td>
+                        <td>@candidato.email</td>
+                        <td>@candidato.contato</td>
+                        <td>@candidato.endereco</td>
+                        <td>
+                            <button class="btn btn-success" @onclick="@(() => EditCandidato(candidato))">Editar</button>
+                            <button class="btn btn-danger" @onclick="@(() => ExcluirCandidato(candidato.Id))">Excluir</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+</div>
+
+@code {
+
+    List<Candidato> candidatos;
+
+    List<Vagas> vagas;
+
+    List<Tecnologias> tecnologias;
+
+    Candidato candidato = new Candidato();
+
+    ModalCadCandidato RefModal;
+
+    ModalEditCandidato RefModalEdit;
+
+    Candidato candidatoEdit;
+
+    ModalForms RefModals;
+
+    string Titulo;
+    string SubTitulo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCandidatos();
+        await LoadVagas();
+        await LoadTecnologias();
+        await JSRuntime.InvokeAsync<object>("TestDataTablesAdd", "#candidato");
+    }
+
+    async Task LoadCandidatos()
+    {
+        candidatos = await http.GetFromJsonAsync<List<Candidato>>($"api/candidato");
+    }
+
+    async Task LoadVagas()
+    {
+        vagas = await http.GetFromJsonAsync<List<Vagas>>($"api/vagas");
+
+    }
+
+    async Task LoadTecnologias()
+    {
+        tecnologias = await http.GetFromJsonAsync<List<Tecnologias>>($"api/tecnologias");
+
+    }
+
+    async Task CriarCandidato()
+    {
+        await http.PostAsJsonAsync("api/candidato", candidato);
+    }
+
+    async Task onConfirmCad()
+    {
+        await Uniques(candidato, candidatos);
+        RefModal.Hide();
+
+    }
+
+    public void onCancelCad()
+    {
+        RefModal.Hide();
+    }
+
+    public void onCancel()
+    {
+        RefModals.Hide();
+    }
+
+    async Task onConfirmEdit()
+    {
+        RefModalEdit.Hide();
+        await EditUniques(candidato, candidatos);
+        await LoadCandidatos();
+    }
+
+    public void onCancelEdit()
+    {
+        RefModalEdit.Hide();
+    }
+
+    public void ShowErrorModal()
+    {
+        RefModals.Show();
+    }
+
+    public void CadNewCandidato()
+    {
+        RefModal.Show();
+    }
+
+    public void EditCandidato(Candidato candidato)
+    {
+        candidatoEdit = candidato;
+        RefModalEdit.Show();
+    }
+
+    async Task EditarCandidato()
+    {
+        await http.PutAsJsonAsync($"api/candidato", candidatoEdit);
+        await LoadCandidatos();
+    }
+
+    async Task ExcluirCandidato(int id)
+    {
+        await http.DeleteAsync($"api/candidato/{id}");
+        await LoadCandidatos();
+    }
+
+    async Task Uniques(Candidato candidato, List<Candidato> lista)
+    {
+        foreach (Candidato s in lista)
+        {
+            if (candidato.email == s.email)
+            {
+                Titulo = "Erro ao Cadastrar";
+                SubTitulo = "Email já registrado";
+                ShowErrorModal();
+                return;
+            }
+
+
+        }
+        await CriarCandidato();
+        await LoadCandidatos();
+    }
+
+    async Task EditUniques(Candidato candidato, List<Candidato> lista)
+    {
+        foreach (Candidato s in lista)
+        {
+            if (candidato.email == s.email)
+            {
+                Titulo = "Erro ao Editar";
+                SubTitulo = "Email já registrado";
+                ShowErrorModal();
+                return;
+            }
+        }
+        await EditarCandidato();
+        await LoadCandidatos();
+    }
+}
+

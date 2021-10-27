@@ -1,0 +1,210 @@
+﻿@page "/vagas/lista"
+@page "/vagas"
+@inject HttpClient http
+@inject IJSRuntime JSRuntime
+@attribute [Authorize]
+@using System.Text.Json
+@using Prova.Client.Pages.Modals.Modal_Error
+@using Prova.Client.Shared
+@using Prova.Client.Pages.Modals.ModalCad
+@using Prova.Client.Pages.Modals.ModalEdit
+
+
+<ModalCadVagas vagas="vaga" tecnologias="tecnologias"  Titulo="Cadastrar nova Vaga" @ref="RefModal" onCancel="onCancelCad" onConfirm="onConfirmCad">
+</ModalCadVagas>
+
+<ModalEditVagas vagas="vagaEdit" tecnologias="tecnologias" Titulo="Editar" @ref="RefModalEdit" onCancel="onCancelEdit" onConfirm="onConfirmEdit">
+</ModalEditVagas>
+
+<ModalForms Titulo="@Titulo" Subtitulo="@SubTitulo" @ref="RefModals" onCancel="onCancel">
+</ModalForms>
+
+<h2 align="center">Lista de Vagas</h2>
+
+<div align="center">
+    @if (vagas == null)
+    {
+        <text>Carregando...</text>
+    }
+    else if (vagas.Count == 0)
+    {
+
+        <table id="tablevagas" class="display" style="width:auto">
+            <thead>
+                <tr align="center">
+                    <th>Vaga</th>
+                    <th>Valor</th>
+                    <th><button class="btn btn-primary" @onclick="@(() => CadNewVaga())">Nova Vaga</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr align="center">
+                    <th align="center" colspan="2"><h3>Não há nenhuma vaga cadastrada no sistema.</h3></th>
+                </tr>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table id="tablevagas" class="display">
+            <thead>
+                <tr align="center">
+                    <th>Vaga</th>
+                    <th>Valor</th>
+                    <th><button class="btn btn-primary" @onclick="@(() => CadNewVaga())">Nova Vaga</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var vaga in vagas)
+                {
+                    <tr align="center">
+                        <td>@vaga.Vaga</td>
+                        <td>@vaga.ValorTecnologias</td>
+                        <td>
+                            <button class="btn btn-success" @onclick="@(() => EditVaga(vaga))">Editar</button>
+                            <button class="btn btn-danger" @onclick="@(() => ExcluirVaga(vaga.Id))">Excluir</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+
+
+@code {
+
+    List<Vagas> vagas;
+    List<Tecnologias> tecnologias;
+
+    Vagas vaga = new Vagas();
+
+    ModalCadVagas RefModal;
+
+    Vagas vagaEdit;
+
+    ModalEditVagas RefModalEdit;
+
+    ModalForms RefModals;
+
+    string Titulo;
+    string SubTitulo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadVagas();
+        await LoadTecnologias();
+        await JSRuntime.InvokeAsync<object>("TestDataTablesAdd", "#tablevagas");
+    }
+
+
+    async Task LoadVagas()
+    {
+        vagas = await http.GetFromJsonAsync<List<Vagas>>($"api/vagas");
+    }
+
+    async Task LoadTecnologias()
+    {
+        tecnologias = await http.GetFromJsonAsync<List<Tecnologias>>($"api/tecnologias");
+    }
+
+    async Task CriarVaga()
+    {
+        await http.PostAsJsonAsync("api/vagas", vaga);
+    }
+
+    async Task onConfirmCad()
+    {
+        await Uniques(vaga, vagas);
+        await CriarVaga();
+        RefModal.Hide();
+        await LoadVagas();
+
+    }
+
+    public void onCancelCad()
+    {
+        RefModal.Hide();
+    }
+
+    async Task onConfirmEdit()
+    {
+        RefModalEdit.Hide();
+        await EditUniques(vaga, vagas);
+        await LoadVagas();
+    }
+
+    public void onCancelEdit()
+    {
+        RefModalEdit.Hide();
+    }
+
+    public void onCancel()
+    {
+        RefModals.Hide();
+    }
+
+    public void ShowErrorModal()
+    {
+        RefModals.Show();
+    }
+
+    public void CadNewVaga()
+    {
+        RefModal.Show();
+    }
+
+    public void EditVaga(Vagas vagas)
+    {
+        vagaEdit = vagas;
+        RefModalEdit.Show();
+    }
+
+    async Task EditarVaga()
+    {
+        await http.PutAsJsonAsync($"api/vagas", vagaEdit);
+        await LoadVagas();
+    }
+
+    async Task ExcluirVaga(int id)
+    {
+        await http.DeleteAsync($"api/vagas/{id}");
+        await LoadVagas();
+    }
+
+    async Task Uniques(Vagas vagas, List<Vagas> lista)
+    {
+        foreach (Vagas s in lista)
+        {
+            if (vagas.Vaga == s.Vaga)
+            {
+
+                Titulo = "Erro ao Editar";
+                SubTitulo = "Não é possível inserir uma vaga já existente";
+
+                ShowErrorModal();
+                return;
+            }
+        }
+        await CriarVaga();
+        await LoadVagas();
+    }
+
+    async Task EditUniques(Vagas vagas, List<Vagas> lista)
+    {
+        foreach (Vagas s in lista)
+        {
+            if (vagas.Vaga == s.Vaga)
+            {
+                Titulo = "Erro ao Editar";
+                SubTitulo = "Não é possível inserir uma tecnologia já existente";
+
+                ShowErrorModal();
+                return;
+            }
+        }
+        await EditarVaga();
+        await LoadVagas();
+    }
+}

@@ -1,0 +1,16 @@
+C:\Users\rapha\source\repos\Collatz\Collatz\bin\Debug\net5.0\Collatz.exe
+C:\Users\rapha\source\repos\Collatz\Collatz\bin\Debug\net5.0\Collatz.deps.json
+C:\Users\rapha\source\repos\Collatz\Collatz\bin\Debug\net5.0\Collatz.runtimeconfig.json
+C:\Users\rapha\source\repos\Collatz\Collatz\bin\Debug\net5.0\Collatz.runtimeconfig.dev.json
+C:\Users\rapha\source\repos\Collatz\Collatz\bin\Debug\net5.0\Collatz.dll
+C:\Users\rapha\source\repos\Collatz\Collatz\bin\Debug\net5.0\ref\Collatz.dll
+C:\Users\rapha\source\repos\Collatz\Collatz\bin\Debug\net5.0\Collatz.pdb
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\Collatz.csproj.AssemblyReference.cache
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\Collatz.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\Collatz.AssemblyInfoInputs.cache
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\Collatz.AssemblyInfo.cs
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\Collatz.csproj.CoreCompileInputs.cache
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\Collatz.dll
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\ref\Collatz.dll
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\Collatz.pdb
+C:\Users\rapha\source\repos\Collatz\Collatz\obj\Debug\net5.0\Collatz.genruntimeconfig.cache

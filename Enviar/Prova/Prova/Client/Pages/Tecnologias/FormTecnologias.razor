@@ -1,0 +1,24 @@
+﻿<EditForm Model="@Tecnologias" OnValidSubmit="@OnValidSubmit">
+
+    <DataAnnotationsValidator />
+    <h3>Tipos de Tecnologias</h3>
+    <div class="form-group">
+        <div><label>Nome Tecnologia</label></div>
+        <div><InputText @bind-Value="@Tecnologias.tecnologia"></InputText></div>
+        <ValidationMessage For="@(() => Tecnologias.tecnologia)"></ValidationMessage>
+    </div>
+
+   
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+
+
+</EditForm>
+
+@code {
+    @using Prova.Shared.Models
+
+    [Parameter] public Tecnologias Tecnologias { get; set; }
+    [Parameter] public string ButtonText { get; set; }
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+}
